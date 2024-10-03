@@ -81,6 +81,7 @@ isEnabled=true
 
 Se desideri contribuire al progetto, sentiti libero di fare una fork e inviare una pull request con le tue modifiche.
 
+
 ## Licenza
 
 Questo progetto è concesso in licenza sotto la MIT License.
