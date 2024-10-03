@@ -95,7 +95,6 @@ public class MkConfig {
         File configFile = new File(CONFIG_FILE);
         try (PrintWriter writer = new PrintWriter(new FileOutputStream(configFile))) {
             Field[] fields = MkConfig.class.getDeclaredFields();
-
             for (Field field : fields) {
                 if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
                     String fieldName = field.getName();
