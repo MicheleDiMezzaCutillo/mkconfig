@@ -8,18 +8,18 @@ import java.util.Properties;
 public class MkConfig {
 
     private static final Properties configProperties = new Properties();
-    private static final String CONFIG_FILE = "mkconfig.properties";
+    private static final String configFileName = "mkconfig.properties";
 
     // Blocco statico per caricare la configurazione all'avvio
     static {
-        File configFile = new File(CONFIG_FILE);
+        File configFile = new File(configFileName);
 
         // Controlla se il file esiste
         if (!configFile.exists()) {
             // Crea il file di configurazione se non esiste
             try {
                 createConfigFile();
-                System.out.println("Ho creato il file " + CONFIG_FILE + ". Compilalo prima di riavviare il programma.");
+                System.out.println("Ho creato il file " + configFileName + ". Compilalo prima di riavviare il programma.");
                 System.exit(0); // Termina il programma
             } catch (IOException e) {
                 throw new RuntimeException("MkConfig: Errore durante la creazione del file di configurazione", e);
@@ -27,7 +27,7 @@ public class MkConfig {
         }
 
         // Carica i dati dal file esistente
-        try (FileInputStream fis = new FileInputStream(CONFIG_FILE)) {
+        try (FileInputStream fis = new FileInputStream(configFileName)) {
             configProperties.load(fis);
         } catch (IOException e) {
             throw new RuntimeException("MkConfig: Errore durante il caricamento del file di configurazione", e);
@@ -57,6 +57,10 @@ public class MkConfig {
 
                     String fieldName = field.getName();
                     String value = get(fieldName);
+
+                    if (fieldName.equals("configProperties") || field.getType() == Properties.class) {
+                        continue;
+                    }
 
                     // Verifica il tipo di dato del campo e assegna il valore appropriato
                     if (field.getType() == String.class) {
@@ -92,7 +96,7 @@ public class MkConfig {
 
     // Metodo per creare il file di configurazione
     private static void createConfigFile() throws IOException {
-        File configFile = new File(CONFIG_FILE);
+        File configFile = new File(configFileName);
         try (PrintWriter writer = new PrintWriter(new FileOutputStream(configFile))) {
             Field[] fields = MkConfig.class.getDeclaredFields();
             for (Field field : fields) {
@@ -100,6 +104,10 @@ public class MkConfig {
                     String fieldName = field.getName();
                     String exampleValue = "";
 
+
+                    if (fieldName.equals("configProperties") || field.getType() == Properties.class) {
+                        continue;
+                    }
                     // Imposta un valore di esempio basato sul tipo del campo
                     if (field.getType() == String.class) {
                         exampleValue = "xxxxxx"; // Esempio per String
