@@ -15,19 +15,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-
-    <distributionManagement>
+    <repositories>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Sonatype Nexus Staging</name>
-            <url>https://oss.sonatype.org/repository/staging/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/repository/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+    </repositories>
 
     <build>
         <plugins>
