@@ -1,3 +1,7 @@
 /mkconfig.properties
 /src/main/java/it/mikedmc/Test.java
 /src/main/java/it/mikedmc/Person.java
+/target/classes/it/mikedmc/MkConfig.class
+/target/classes/it/mikedmc/Person.class
+/target/classes/it/mikedmc/Test.class
+/target/
