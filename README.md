@@ -77,6 +77,47 @@ ownerId=123456789
 isEnabled=true
 ```
 
+Un esempio dei vari tipi gestiti nel file di configurazione sono:
+```mmakefile
+stringa=valore
+intero=10
+long=10000
+localdate=2024-10-21
+booleano=true
+listastring=val1,val2,val3
+listainteri=2,5,7
+listalong=1000,2000,3000
+setstring=val1,val2,val3
+setinteri=2,5,7
+setlong=1000,2000,3000
+arraystring=val1,val2,val3
+arrayinteri=2,5,7
+arraylong=1000,2000,3000
+```
+
+## Tipo custom
+
+Se hai un oggetto personalizzato, dovrai creare il costruttore che prenda una stringa, divida la stringa passata come parametro in un array di String dividendo i vari valori tra le virgole:`,` poi popola l'oggetto con i vari valori.
+Ecco un esempio:
+```java
+public class Person {
+    private String nome;
+    private String cognome;
+
+    public Person(String data) {
+        String[] datas = data.split(",");
+        nome = datas[0];
+        cognome = datas[1];
+    }
+    
+    // getter e setter
+}
+```
+Mentre, nel file di configurazione, avremo:
+```mmakefile
+oggettocustom=Mario,Rossi
+```
+
 ## Contribuire
 
 Se desideri contribuire al progetto, sentiti libero di fare una fork e inviare una pull request con le tue modifiche.
