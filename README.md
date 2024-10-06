@@ -1,6 +1,3 @@
-# mkconfig
-Un progetto che utilizzo nei miei altri progetti per impostare dei dati di configurazione all'avvio.
-
 # MkConfig
 
 MkConfig è una libreria per la gestione della configurazione in progetti Java. Semplifica il caricamento e la gestione dei valori di configurazione tramite un file `.properties`, consentendo agli sviluppatori di concentrarsi sulla logica della loro applicazione.
