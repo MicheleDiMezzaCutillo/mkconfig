@@ -6,23 +6,29 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
 
 public class MkConfig<T> {
-    private static final String CONFIG_FILE = "mkconfig.properties";
     private final Class<T> configClass;
+
+    private final Path configPath;
 
     public MkConfig(Class<T> configClass) {
         this.configClass = configClass;
+        this.configPath = resolveConfigPath();
 
         try {
-            File configFile = new File(CONFIG_FILE);
+            File configFile = configPath.toFile();
 
             if (!configFile.exists()) {
                 createConfigFile();
-                System.out.println("Ho creato il file " + CONFIG_FILE + ". Compilalo prima di riavviare il programma.");
-                System.exit(0); // Termina il programma
+                System.out.println("Ho creato il file " + configFile.getAbsolutePath() + ". Compilalo prima di riavviare il programma.");
+                System.exit(0);
             }
 
             Properties configProperties = new Properties();
@@ -37,18 +43,15 @@ public class MkConfig<T> {
         }
     }
 
-    /***
-     * Ricarica i config da mkconfig.properties.
-     */
-    public void reload() {
+    private Path resolveConfigPath() {
         try {
-            Properties configProperties = new Properties();
-            try (FileInputStream fis = new FileInputStream(CONFIG_FILE)) {
-                configProperties.load(fis);
-            }
-            initializeFields(configProperties);
-        } catch (IOException e) {
-            throw new RuntimeException("MkConfig: Errore durante il ricaricamento del file di configurazione", e);
+            URI uri = configClass.getProtectionDomain().getCodeSource().getLocation().toURI();
+            Path location = Paths.get(uri);
+
+            Path dir = Files.isRegularFile(location) ? location.getParent() : location;
+            return dir.resolve("mkconfig.properties");
+        } catch (Exception e) {
+            throw new RuntimeException("MkConfig: impossibile determinare la cartella del jar", e);
         }
     }
 
@@ -161,7 +164,7 @@ public class MkConfig<T> {
     }
 
     private void createConfigFile() throws IOException {
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream(CONFIG_FILE))) {
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(configPath))) {
             Field[] fields = configClass.getDeclaredFields();
 
             for (Field field : fields) {
